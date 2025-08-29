@@ -16,6 +16,7 @@ public class AuthService(IUserRepository userRepository, IConfiguration configur
     : IAuthService
 {
 
+    // Register a new user
     public async Task<AuthResponse?> RegisterAsync(RegisterRequest request)
     {
         // Add this validation at the top
@@ -60,6 +61,7 @@ public class AuthService(IUserRepository userRepository, IConfiguration configur
         return CreateTokenResponse(user);
     }
 
+    // Login an existing user
     public async Task<AuthResponse?> LoginAsync(LoginRequest request)
     {
         // Find user by username or email
@@ -78,6 +80,7 @@ public class AuthService(IUserRepository userRepository, IConfiguration configur
         return CreateTokenResponse(user);
     }
 
+    // Refresh JWT token using a valid refresh token
     public async Task<AuthResponse?> RefreshTokenAsync(RefreshTokenRequest request)
     {
         // Validate the refresh token
@@ -89,6 +92,7 @@ public class AuthService(IUserRepository userRepository, IConfiguration configur
         return CreateTokenResponse(user);
     }
 
+    // Helper method to create token response
     private AuthResponse CreateTokenResponse(User user)
     {
         // Generate new refresh token and update user's refresh token and expiry time
@@ -98,6 +102,7 @@ public class AuthService(IUserRepository userRepository, IConfiguration configur
         };
     }
 
+    // Helper method to create JWT token
     private string CreateToken(User user)
     {
         // Define claims for the JWT token
@@ -125,6 +130,7 @@ public class AuthService(IUserRepository userRepository, IConfiguration configur
         return new JwtSecurityTokenHandler().WriteToken(accessToken);
     }
 
+    // Helper method to generate a secure refresh token
     private static string GenerateRefreshToken()
     {
         // Generate a secure random refresh token
@@ -140,12 +146,14 @@ public class AuthService(IUserRepository userRepository, IConfiguration configur
         return Convert.ToBase64String(randNumber);
     }
 
+    // Helper method to hash the password
     private static string HashPassword(User user, string password)
     {
         // Hash the password using PasswordHasher
         return new PasswordHasher<User>().HashPassword(user, password);
     }
 
+    // Helper method to validate the refresh token
     private async Task<User?> ValidateRefreshTokenAsync(Guid userId, string refreshToken)
     {
         // Retrieve the user by ID and validate the refresh token
@@ -156,6 +164,7 @@ public class AuthService(IUserRepository userRepository, IConfiguration configur
         return user;
     }
 
+    // Helper method to check password complexity
     private static bool IsPasswordComplex(string password)
     {
         // Check if the password meets complexity requirements

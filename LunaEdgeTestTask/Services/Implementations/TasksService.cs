@@ -9,14 +9,18 @@ namespace LunaEdgeTestTask.Services.Implementations;
 
 public class TasksService(ITaskRepository taskRepository) : ITasksService
 {
+    // Create a new task for a given user
     public async Task<CreateTaskResponse> CreateTaskAsync(CreateTaskRequest request, Guid userId)
     {
+        // Validate title
         if (string.IsNullOrEmpty(request.Title) || request.Title.Length > 50)
             throw new ArgumentException("Title is required and must be 50 characters or fewer.");
 
+        // Get the user or throw if not found
         var user = await taskRepository.GetUserByIdAsync(userId)
                    ?? throw new ArgumentException("User not found.");
 
+        // Create a new Task entity
         var newTask = new Models.Task
         {
             Title = request.Title,
@@ -28,8 +32,10 @@ public class TasksService(ITaskRepository taskRepository) : ITasksService
             user = user
         };
 
+        // Save the task
         await taskRepository.AddAsync(newTask);
 
+        // Return response DTO
         return new CreateTaskResponse
         {
             Title = newTask.Title,
@@ -38,16 +44,19 @@ public class TasksService(ITaskRepository taskRepository) : ITasksService
         };
     }
 
+    // Get all tasks with filtering, sorting, and pagination
     public async Task<List<FilteredTasksResponse>> GetTasksAsync(GetTasksFilterRequest request)
     {
+        // Ensure valid pagination parameters
         if (request.PageNumber < 1) request.PageNumber = 1;
         if (request.PageSize < 1) request.PageSize = 10;
         if (request.PageSize > 100) request.PageSize = 100;
 
+        // Fetch all tasks
         var tasks = await taskRepository.GetAllAsync();
         var query = tasks.AsQueryable();
 
-        // --- Filtration ---
+        // --- Filtering ---
 
         // Filter by Status
         if (!string.IsNullOrEmpty(request.Status) && Enum.TryParse<Status>(request.Status, out var statusEnum))
@@ -66,7 +75,7 @@ public class TasksService(ITaskRepository taskRepository) : ITasksService
 
         // --- Sorting ---
 
-        //Default sorting by CreatedAt
+        // Default sorting is by CreatedAt
         query = request.SortBy switch
         {
             "DueDate" => request.Description ? query.OrderByDescending(t => t.DueDate) : query.OrderBy(t => t.DueDate),
@@ -90,14 +99,18 @@ public class TasksService(ITaskRepository taskRepository) : ITasksService
         return result;
     }
 
+    // Get detailed information about a task (only if user is the owner)
     public async Task<GetTaskInfoResponse> GetTaskInfoAsync(GetTaskInfoOrDeleteRequest request, Guid userId)
     {
-        // Ensure the task exists and belongs to the user
+        // Ensure the task exists
         var task = await taskRepository.GetByIdAsync(request.Id)
                    ?? throw new ArgumentException("Task not found.");
+
+        // Check if user is the owner
         if (task.UserId != userId)
             throw new ArgumentException("You do not have permission to view this task.");
 
+        // Return task details
         return new GetTaskInfoResponse
         {
             Id = task.Id,
@@ -112,14 +125,18 @@ public class TasksService(ITaskRepository taskRepository) : ITasksService
         };
     }
 
+    // Update an existing task (only if user is the owner)
     public async Task<UpdateTaskResponse> UpdateTaskAsync(UpdateTaskRequest updateRequest, Guid userId)
     {
+        // Ensure the task exists
         var task = await taskRepository.GetByIdAsync(updateRequest.TaskId)
                    ?? throw new ArgumentException("Task not found.");
 
+        // Check if user is the owner
         if (task.UserId != userId)
             throw new ArgumentException("You do not have permission to update this task.");
 
+        // Update fields if provided
         if (!string.IsNullOrEmpty(updateRequest.Title))
         {
             if (updateRequest.Title.Length > 50)
@@ -132,8 +149,10 @@ public class TasksService(ITaskRepository taskRepository) : ITasksService
             task.Priority = updateRequest.Priority ?? task.Priority;
         }
 
+        // Save changes
         await taskRepository.UpdateAsync(task);
 
+        // Return response DTO
         return new UpdateTaskResponse
         {
             Title = task.Title,
@@ -144,13 +163,17 @@ public class TasksService(ITaskRepository taskRepository) : ITasksService
         };
     }
 
+    // Delete a task (only if user is the owner)
     public async Task<bool> DeleteTaskAsync(GetTaskInfoOrDeleteRequest request, Guid userId)
     {
+        // Ensure the task exists
         var task = await taskRepository.GetByIdAsync(request.Id);
 
+        // If not found or not owned by the user → return false
         if (task == null || task.UserId != userId)
             return false;
 
+        // Delete and return success
         await taskRepository.DeleteAsync(task);
         return true;
     }
