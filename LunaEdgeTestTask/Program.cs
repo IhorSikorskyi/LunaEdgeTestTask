@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "LunaEdgeTestTask API", Version = "v1" });
 
-    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization", 
         Type = SecuritySchemeType.Http,
