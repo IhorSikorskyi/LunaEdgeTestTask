@@ -118,3 +118,25 @@ Host: localhost:5000
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
+## Explanation of the architecture and design choices
+
+1. **Security:**
+   For security, my project uses JWT tokens. I create a short-lived AccessToken to authorize users, and refresh it with a long-lived RefreshToken that is stored in the database and updated whenever needed.
+   This ensures that even if an AccessToken is stolen, it will not be valid for long. Also, the AccessToken does not contain a password; it only includes the email and username, which are not sensitive information.
+   
+3. **SQL Databesa & Docker:**
+   I use Microsoft SQL Server because I follow a code-first approach, and it provides the easiest way to manage database migrations.
+   I also use Docker (Desktop) to host my backend and database, specifically using a multi-container setup. One for Back and one for SQL DB.
+
+3. **Architecture and Design:**
+   I use Clean Architecture / Layered Architecture, with the project organized into several folders:
+
+   - Models – contains model definitions and database mappings.
+   
+   - Services – contains two subfolders: Interfaces and Implementations, for better dependency injection. This layer contains all business logic.
+   
+   - DTOs – contains two subfolders: Requests and Responses, used to define proper request and response objects for the API endpoints.
+   
+   - Repositories – contains two subfolders: Interfaces and Implementations, for better dependency injection. This layer handles all LINQ queries to the database.
+   
+   - Controllers – contains the controllers that define the API endpoints.
