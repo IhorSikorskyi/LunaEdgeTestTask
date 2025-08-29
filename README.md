@@ -66,7 +66,7 @@ The project demonstrates clean architecture principles, separation of concerns, 
 **Base URL:**
 
 ```
-[http://localhost:8080/swagger/index.html]
+[http://localhost:8080]
 ```
 
 > **Note:** Endpoints under **/api/tasks** require authentication via JWT. Include in header:
