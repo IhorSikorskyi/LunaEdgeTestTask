@@ -10,10 +10,12 @@ The project demonstrates clean architecture principles, separation of concerns, 
 
 ## Setup Instructions
 
-1. **Clone the repository**
+1. **Clone the repository:**
+
    You can use any tool you want for this.
 
-2. **Configure the database**
+2. **Configure the database:**
+
    You must have SQL Server and Docker (Desktop) installed.
    If necessary, you can also update the connection string in `appsettings.json`:
 
@@ -33,19 +35,22 @@ The project demonstrates clean architecture principles, separation of concerns, 
    
    <img width="788" height="390" alt="image" src="https://github.com/user-attachments/assets/bb52c32b-02c5-48d4-8ea5-0e2471a29e8e" />
 
-> Note: This is not the newest version because we are working with an older .NET version.
+   > Note: This is not the newest version because we are working with an older .NET version.
 
-4. **Apply migrations and update the database**
+4. **Apply migrations and update the database:**
+
    Run `dotnet ef database update` if you are using VSCode, or `Update-Database` if you are using Visual Studio.
 
-5. **Create a Docker multi-container setup**
+5. **Create a Docker multi-container setup:**
+
    Run:
 
    ```bash
    docker-compose up --build
    ```
 
-6. **(Optional) SQL Server Management Studio (SSMS)**
+6. **(Optional) SQL Server Management Studio (SSMS):**
+
    If you want, you can install SSMS to manually manage your database.
    For correct connection, use:
 
