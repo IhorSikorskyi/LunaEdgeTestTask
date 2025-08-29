@@ -21,7 +21,8 @@ The project demonstrates clean architecture principles, separation of concerns, 
    "DefaultConnection": "Server=localhost,1433;Database=LunaEdgeTestTaskDb;User=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true;"
    ```
 
-3. **Restore NuGet packages**
+3. **Restore NuGet packages:**
+   
    Use `dotnet restore` or install them manually.
 
    For the entire project:
