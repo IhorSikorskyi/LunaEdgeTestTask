@@ -24,9 +24,13 @@ The project demonstrates clean architecture principles, separation of concerns, 
 3. **Restore NuGet packages**
    Use `dotnet restore` or install them manually.
 
-   For the entire project: <img width="795" height="598" alt="image" src="https://github.com/user-attachments/assets/7589f329-acfc-40c3-915d-22c22e93bf18" />
+   For the entire project:
+   
+   <img width="795" height="598" alt="image" src="https://github.com/user-attachments/assets/7589f329-acfc-40c3-915d-22c22e93bf18" />
 
-   For tests: <img width="788" height="390" alt="image" src="https://github.com/user-attachments/assets/bb52c32b-02c5-48d4-8ea5-0e2471a29e8e" />
+   For tests:
+   
+   <img width="788" height="390" alt="image" src="https://github.com/user-attachments/assets/bb52c32b-02c5-48d4-8ea5-0e2471a29e8e" />
 
 > Note: This is not the newest version because we are working with an older .NET version.
 
@@ -80,9 +84,13 @@ Authorization: Bearer <JWT_TOKEN>
 ---
 
 Click the Authorize button:
+
 <img width="229" height="79" alt="image" src="https://github.com/user-attachments/assets/e7c15871-715f-4b4d-9f37-27c575b46d3a" />
+
 Enter your token obtained from the response of any user endpoint:
+
 <img width="655" height="292" alt="image" src="https://github.com/user-attachments/assets/f68b423f-e43f-44d1-add5-665f64422211" />
+
 Click Authorize again.
 After this, you can use all endpoints under Task Management.
 
