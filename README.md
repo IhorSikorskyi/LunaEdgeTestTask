@@ -51,7 +51,7 @@ The project demonstrates clean architecture principles, separation of concerns, 
    Password: YourStrong!Passw0rd
    ```
 
-##LunaEdgeTestTask API Documentation
+## **LunaEdgeTestTask API Documentation**
 
 **Base URL:**
 
