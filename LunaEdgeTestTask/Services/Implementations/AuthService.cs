@@ -15,8 +15,13 @@ namespace LunaEdgeTestTask.Services.Implementations;
 public class AuthService(IUserRepository userRepository, IConfiguration configuration)
     : IAuthService
 {
+
     public async Task<AuthResponse?> RegisterAsync(RegisterRequest request)
     {
+        // Add this validation at the top
+        if (string.IsNullOrWhiteSpace(request.Username))
+            throw new ArgumentException("Username cannot be empty");
+
         // Check if user with the same username or email already exists
         var existingUser = await userRepository.GetByUsernameOrEmailAsync(request.Username)
                            ?? await userRepository.GetByUsernameOrEmailAsync(request.Email);
