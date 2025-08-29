@@ -1,0 +1,40 @@
+﻿version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    # healthcheck:
+    #   test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -U sa -P YourStrong!Passw0rd -Q 'select 1' || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # depends_on:
+    #   sqlserver:
+    #     condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=LunaEdgeTestTaskDb;User=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    command: >
+      sh -c "dotnet ef database update && dotnet LunaEdgeTestTask.dll"
+    restart: unless-stopped
+    volumes:
+      - dataprotect:/root/.aspnet/DataProtection-Keys
+
+volumes:
+  sqlserver_data:
+  dataprotect:

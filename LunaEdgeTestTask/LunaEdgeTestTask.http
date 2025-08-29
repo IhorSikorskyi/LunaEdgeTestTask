@@ -1,0 +1,6 @@
+@LunaEdgeTestTask_HostAddress = http://localhost:5111
+
+GET {{LunaEdgeTestTask_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
