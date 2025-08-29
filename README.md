@@ -1,4 +1,4 @@
-<img width="655" height="292" alt="image" src="https://github.com/user-attachments/assets/42f8e688-587b-4c39-bc1b-c2c2476a75b4" /># LunaEdgeTestTask
+# LunaEdgeTestTask
 
 ## Overview
 
